@@ -13,7 +13,7 @@
         />
 
         <!-- Тип записи -->
-        <select
+        <select 
             class=""
             v-model="account.type"
             @change="validate(account)"
@@ -85,3 +85,9 @@ function validate(account: Account) {
     }
 }
 </script>
+
+<style scoped>
+.error-border {
+  border: 1px solid red;
+}
+</style>
