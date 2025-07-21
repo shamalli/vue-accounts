@@ -22,18 +22,17 @@ export const useAccountsStore = defineStore('accounts', () => {
       labels: [],
       type: 'Локальная',
       login: '',
-      password: ''
+      password: '',
+      errors: {}
     }
     accounts.value.push(newAccount)
-
-    console.log(newAccount);
   }
 
   function removeAccount(id: string) {
-    
-    console.log(id);
-    console.log(accounts.value);
-
+    const i = accounts.value.findIndex(acc => acc.id === id);
+    if (i > -1) {
+        accounts.value.splice(i, 1);
+    }
   }
 
   watch(accounts, saveToLocalStorage, { deep: true })

@@ -1,12 +1,14 @@
 <template>
     <div
-        v-for="(account, index) in accounts"
+        v-for="(account) in accounts"
         :key="account.id"
         class="">
         <!-- Метка -->
         <input
             class=""
+            :class="{ 'error-border': account.errors?.labels }"
             placeholder="Метки"
+            @blur="onLabelBlur(account, $event.target.value)"
             :value="account.labels.map(l => l.text).join('; ')"
         />
 
@@ -14,6 +16,7 @@
         <select
             class=""
             v-model="account.type"
+            @change="validate(account)"
         >
             <option value="Локальная">Локальная</option>
             <option value="LDAP">LDAP</option>
@@ -22,8 +25,10 @@
         <!-- Логин -->
         <input
             class=""
+            :class="{ 'error-border': account.errors?.login }"
             placeholder="Логин"
             v-model="account.login"
+            @change="validate(account)"
         />
 
         <!-- Пароль -->
@@ -31,8 +36,10 @@
             v-if="account.type === 'Локальная'"
             type="password"
             class=""
+            :class="{ 'error-border': account.errors?.password }"
             placeholder="Пароль"
             v-model="account.password"
+            @change="validate(account)"
         />
 
         <!-- Удаление -->
@@ -46,4 +53,35 @@ import type { Account } from '@/types/Account'
 
 const { accounts, removeAccount } = useAccountsStore()
 
+function onLabelBlur(account: Account, value: string) {
+    console.log(value);
+
+    account.labels = value
+    .split(';')
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(text => ({ text }))
+
+    validate(account)
+}
+
+function validate(account: Account) {
+    account.errors = {}
+
+    if (!account.login || account.login.length > 100) {
+        account.errors.login = true
+    }
+
+    if (account.type === 'Локальная') {
+        if (!account.password || account.password.length > 100) {
+            account.errors.password = true
+        }
+    } else {
+        account.password = null
+    }
+
+    if (account.labels.some(label => label.text.length > 50)) {
+        account.errors.labels = true
+    }
+}
 </script>
