@@ -87,7 +87,7 @@ function validate(account: Account) {
 </script>
 
 <style scoped>
-.error-border {
+.error-border { 
   border: 1px solid red;
 }
 </style>
