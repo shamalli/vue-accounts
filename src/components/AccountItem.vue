@@ -22,7 +22,10 @@
         <!-- Логин -->
         <input
             class="border p-2 rounded w-1/4"
-            :class="{ 'border-pink-500': account.errors?.login }"
+            :class="{
+                'border-pink-500': account.errors?.login,
+                'w-2/4': account.type !== 'Локальная'
+            }"
             placeholder="Логин"
             v-model="account.login"
             @change="validate(account)"
