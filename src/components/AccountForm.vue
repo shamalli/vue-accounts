@@ -6,14 +6,16 @@
       Для указания нескольких меток для одной пары логин/пароль используйте разделитель ;
     </p>
 
-    <AccountItem />
+    <AccountItem
+    v-for="(account) in accounts"
+    :key="account.id"
+    :account="account" />
   </div>
 </template>
 
 <script setup lang="ts">
 import AccountItem from '../components/AccountItem.vue'
 import { useAccountsStore } from '@/stores/useAccountsStore'
-import type { Account } from '@/types/Account'
 
 const { accounts, addAccount, removeAccount } = useAccountsStore()
 

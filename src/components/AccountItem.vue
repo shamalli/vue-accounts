@@ -1,8 +1,5 @@
 <template>
-    <div
-        v-for="(account) in accounts"
-        :key="account.id"
-        class="">
+    <div class="">
         <!-- Метка -->
         <input
             class=""
@@ -51,11 +48,12 @@
 import { useAccountsStore } from '@/stores/useAccountsStore'
 import type { Account } from '@/types/Account'
 
-const { accounts, removeAccount } = useAccountsStore()
+const { removeAccount } = useAccountsStore()
+
+const props = defineProps(['account'])
+const account = props.account
 
 function onLabelBlur(account: Account, value: string) {
-    console.log(value);
-
     account.labels = value
     .split(';')
     .map(s => s.trim())
