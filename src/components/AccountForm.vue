@@ -5,7 +5,13 @@
     <p class="text-sm text-gray-600 mb-2">
       Для указания нескольких меток для одной пары логин/пароль используйте разделитель ;
     </p>
-
+    
+    <div class="flex gap-2">
+      <div class="w-1/4 pb-2">Метка</div>
+      <div class="w-1/6 pb-2">Тип записи</div>
+      <div class="w-1/4 pb-2">Логин</div>
+      <div class="w-1/4 pb-2">Пароль</div>
+    </div>
     <AccountItem
       v-for="(account) in accounts"
       :key="account.id"
