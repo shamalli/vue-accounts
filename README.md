@@ -1,39 +1,76 @@
-# vue-accounts
+# Управление учетными записями
 
-This template should help get you started developing with Vue 3 in Vite.
+Интерфейс для добавления, редактирования и хранения учетных записей. Поддержка локальных и LDAP-типов с валидацией и сохранением в LocalStorage.
 
-## Recommended IDE Setup
+## Стек технологий
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Vue 3** + Composition API  
+- **TypeScript**  
+- **Pinia** — стейт-менеджер  
+- **TailwindCSS** — стили  
+- LocalStorage — для хранения данных
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Установка и запуск
 
-## Customize configuration
+```bash
+# 1. Клонируйте проект
+git clone https://github.com/shamalli/vue-account.git
+cd account-form-vue
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+# 2. Установка зависимостей
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# 3. Запуск проекта
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+---
 
-```sh
-npm run build
+## Структура проекта
+
+```
+src/
+├── assets
+│   └── main.css              # Tailwind CSS
+├── components/
+│   └── AccountForm.vue       # Основная форма
+│   └── AccountItem.vue       # Учетная запись
+├── stores/
+│   └── useAccountsStore.ts   # Pinia стейт
+├── types/
+│   └── Account.ts            # Типы TypeScript
+├── App.vue                   # Рут компонент
+└── main.ts                   # Точка входа
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+---
 
-```sh
-npm run lint
-```
+## Возможности
+
+- Добавление/удаление учетных записей
+- Типы: Локальная / LDAP
+- Условное отображение поля "Пароль"
+- Валидация:
+  - Метки: необязательные, до 50 символов общая, `;`-разделитель
+  - Логин: обязательный, до 100 символов
+  - Пароль: обязательный (если тип Локальная), до 100 символов
+- Хранение и восстановление из LocalStorage
+- Метки сохраняются в виде массива объектов `{ text: string }`
+
+---
+
+# Особенности реализации
+ref-объект accounts передаётся от родительского компонента AccountForm
+в дочерние компоненты AccountItem. Изменение объекта отслеживается и
+сохраняется в LocalStorage. Обработчики событий - внутри дочерних
+компонентов
+
+---
+
+## Альтернатива
+Использовать метод $emit в дочерних компонентах и вызывать обработчики в
+родительском AccountForm.
+Минусы альтернативы: сложность при дальнейшей расширяемости свойств дочернего
+компонента, так и при большей вложенности компонентов.
