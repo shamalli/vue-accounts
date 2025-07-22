@@ -5,7 +5,7 @@
             class=""
             :class="{ 'error-border': account.errors?.labels }"
             placeholder="Метки"
-            @blur="onLabelBlur(account, $event.target.value)"
+            @blur="onLabelBlur(account, $event)"
             :value="account.labels.map(l => l.text).join('; ')"
         />
 
@@ -47,20 +47,29 @@
 <script setup lang="ts">
 import { useAccountsStore } from '@/stores/useAccountsStore'
 import type { Account } from '@/types/Account'
+import type { PropType } from 'vue'
 
 const { removeAccount } = useAccountsStore()
 
-const props = defineProps(['account'])
-const account = props.account
+defineProps({
+    account: {
+        type: Object as PropType<Account>,
+        required: true
+    }
+})
 
-function onLabelBlur(account: Account, value: string) {
-    account.labels = value
-    .split(';')
-    .map(s => s.trim())
-    .filter(Boolean)
-    .map(text => ({ text }))
+function onLabelBlur(account: Account, event: FocusEvent) {
+    if (event.target instanceof HTMLInputElement) {
+        const value = event.target.value
 
-    validate(account)
+        account.labels = value
+        .split(';')
+        .map(s => s.trim())
+        .filter(Boolean)
+        .map(text => ({ text }))
+
+        validate(account)
+    }
 }
 
 function validate(account: Account) {

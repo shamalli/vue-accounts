@@ -7,9 +7,10 @@
     </p>
 
     <AccountItem
-    v-for="(account) in accounts"
-    :key="account.id"
-    :account="account" />
+      v-for="(account) in accounts"
+      :key="account.id"
+      :account="account"
+    />
   </div>
 </template>
 
@@ -17,7 +18,7 @@
 import AccountItem from '../components/AccountItem.vue'
 import { useAccountsStore } from '@/stores/useAccountsStore'
 
-const { accounts, addAccount, removeAccount } = useAccountsStore()
+const { accounts, addAccount } = useAccountsStore()
 
 </script>
 
