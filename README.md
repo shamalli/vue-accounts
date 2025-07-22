@@ -16,8 +16,8 @@
 
 ```bash
 # 1. Клонируйте проект
-git clone https://github.com/shamalli/vue-account.git
-cd vue-account
+git clone https://github.com/shamalli/vue-accounts.git
+cd vue-accounts
 
 # 2. Установка зависимостей
 npm install
