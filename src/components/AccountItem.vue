@@ -1,9 +1,9 @@
 <template>
-    <div class="">
+    <div class="flex gap-2 mb-3 odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900/50 dark:even:bg-gray-950">
         <!-- Метка -->
         <input
-            class=""
-            :class="{ 'error-border': account.errors?.labels }"
+            class="border p-2 rounded w-1/4"
+            :class="{ 'border-pink-500': account.errors?.labels }"
             placeholder="Метки"
             @blur="onLabelBlur(account, $event)"
             :value="account.labels.map(l => l.text).join('; ')"
@@ -11,7 +11,7 @@
 
         <!-- Тип записи -->
         <select 
-            class=""
+            class="border p-2 rounded w-1/6"
             v-model="account.type"
             @change="validate(account)"
         >
@@ -21,8 +21,8 @@
 
         <!-- Логин -->
         <input
-            class=""
-            :class="{ 'error-border': account.errors?.login }"
+            class="border p-2 rounded w-1/4"
+            :class="{ 'border-pink-500': account.errors?.login }"
             placeholder="Логин"
             v-model="account.login"
             @change="validate(account)"
@@ -32,15 +32,15 @@
         <input
             v-if="account.type === 'Локальная'"
             type="password"
-            class=""
-            :class="{ 'error-border': account.errors?.password }"
+            class="border p-2 rounded w-1/4"
+            :class="{ 'border-pink-500': account.errors?.password }"
             placeholder="Пароль"
             v-model="account.password"
             @change="validate(account)"
         />
 
         <!-- Удаление -->
-        <button @click="removeAccount(account.id)" class="">🗑️</button>
+        <button @click="removeAccount(account.id)" class="text-red-500 text-xl cursor-pointer">🗑️</button>
     </div>
 </template>
 
@@ -87,14 +87,12 @@ function validate(account: Account) {
         account.password = null
     }
 
-    if (account.labels.some(label => label.text.length > 50)) {
+    let labelsLength = 0;
+    for (const l of account.labels) {
+        labelsLength += l.text.length;
+    }
+    if (labelsLength > 50) {
         account.errors.labels = true
     }
 }
 </script>
-
-<style scoped>
-.error-border { 
-  border: 1px solid red;
-}
-</style>
